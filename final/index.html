@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TraveRoute - 인공지능 최적 여행 동선 플래너</title>
+  
+  <!-- SEO 메타 태그 -->
+  <meta name="description" content="원하는 지역만 입력하면 인공지능이 맛집(점심·저녁·야식)과 명소를 포함한 최적의 여행 동선을 설계해 드립니다. 카카오 맵 연동 및 일정 편집 가능.">
+  <meta name="keywords" content="여행 동선, 여행 계획, 맛집 추천, 코스 추천, 지도 시각화, 카카오 맵">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome (Icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Leaflet CSS (Fallback Map) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  
+  <!-- Kakao Login SDK -->
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
+  <!-- Portone SDK for Kakao Pay -->
+  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css?v=202606162246">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- 사이드바: 일정 및 동선 관리 -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <i class="fa-solid fa-route logo-icon"></i>
+          <h1>Trave<span>Route</span></h1>
+        </div>
+        <p class="subtitle">나만의 맞춤형 최적 여행 코스 플래너</p>
+      </div>
+      
+      <!-- 카카오 로그인 영역 -->
+      <div id="kakao-auth-section" class="kakao-auth-section">
+        <!-- 비로그인 상태 -->
+        <div id="kakao-login-box" class="auth-box">
+          <p class="auth-msg">로그인하고 모든 혜택을 받으세요.</p>
+          <button id="kakao-login-btn" class="kakao-btn">
+            <i class="fa-solid fa-comment yellow-comment"></i> 카카오 1초 로그인
+          </button>
+        </div>
+        <!-- 로그인 완료 상태 -->
+        <div id="kakao-profile-box" class="auth-box" style="display: none;">
+          <div class="profile-info">
+            <div class="avatar-wrapper">
+              <i class="fa-solid fa-circle-user avatar-placeholder"></i>
+              <img id="kakao-avatar" src="" alt="프로필" style="display: none;">
+            </div>
+            <div class="profile-text">
+              <span id="kakao-nickname" class="nickname">사용자</span>
+              <span id="search-count-badge" class="badge">무료 체험 (0/3)</span>
+            </div>
+          </div>
+          <button id="kakao-logout-btn" class="logout-btn" title="로그아웃">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- 검색 섹션 -->
+      <section class="search-section">
+        <div class="input-wrapper">
+          <i class="fa-solid fa-map-pin search-icon"></i>
+          <input type="text" id="destination-input" placeholder="어디로 여행을 떠나시나요? (예: 제주, 서울, 강릉...)" autocomplete="off">
+          <button id="search-btn" class="search-btn" aria-label="검색">
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+        <div class="quick-tags">
+          <span class="quick-tag" data-value="제주">#제주</span>
+          <span class="quick-tag" data-value="서울">#서울</span>
+          <span class="quick-tag" data-value="부산">#부산</span>
+          <span class="quick-tag" data-value="경주">#경주</span>
+          <span class="quick-tag" data-value="강릉">#강릉</span>
+        </div>
+      </section>
+      <!-- AI 추천 테마 코스 섹션 -->
+      <section class="pool-section" id="pool-section" style="display: none; flex-direction: column; overflow: hidden; flex: 1;">
+        <div class="pool-header">
+          <h2><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--secondary);"></i> AI 추천 테마 코스</h2>
+        </div>
+        <div class="pool-card-list" id="pool-card-list" style="overflow-y: auto; flex: 1; max-height: 180px; margin-bottom: 15px;">
+          <!-- AI 추천 코스 카드가 동적으로 주입됨 -->
+        </div>
+
+        <div class="pool-header" style="border-top: 1px solid var(--border-light); padding-top: 15px; margin-top: 5px;">
+          <h2><i class="fa-solid fa-square-plus" style="color:var(--secondary);"></i> 일정 내 장소 직접 추가</h2>
+        </div>
+        <div class="input-wrapper" style="margin-bottom: 8px;">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="add-place-input" placeholder="추가하고 싶은 맛집/명소를 입력하세요..." autocomplete="off" style="font-size:12px; height: 36px; background: transparent; border: none; color: var(--text-main); outline: none; flex: 1;">
+          <button id="add-place-btn" class="search-btn" aria-label="장소 추가" style="height: 32px; width: 32px; flex-shrink: 0;">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+        <div id="add-place-results" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;"></div>
+      </section>      
+      <!-- 하단 정보 및 공유 단추 -->
+      <footer class="sidebar-footer">
+        <button id="share-btn" class="config-btn" style="background: var(--secondary); margin-bottom: 8px; font-weight:700; color:var(--text-dark);">
+          <i class="fa-solid fa-share-nodes"></i> 일정 공유하기 (링크 복사)
+        </button>
+        <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top: 4px;">
+          <p class="copyright" style="margin:0;">&copy; 2026 TraveRoute. Built beautifully.</p>
+          <button id="api-config-btn" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:11px;" title="카카오 맵 API 설정">
+            <i class="fa-solid fa-gear"></i>
+          </button>
+        </div>
+      </footer>
+    </aside>
+
+    <!-- 메인 콘텐츠 영역: 지도 -->
+    <main class="map-area">
+      <!-- 실제 지도가 들어갈 컨테이너 -->
+      <div id="map-container" class="map-container"></div>
+      
+      <!-- 카카오 맵 로드 대기/에러 안내 레이어 -->
+      <div id="map-status" class="map-status-badge">
+        <span class="status-dot green"></span>
+        <span id="status-text">지도 로딩 중...</span>
+        <button id="force-fallback-btn" class="fallback-action-btn" style="display:none; margin-left: 8px; background: rgba(244, 63, 94, 0.2); border: 1px solid var(--accent); color: #FDA4AF; padding: 2px 8px; border-radius: 4px; font-size: 10px; cursor: pointer; transition: 0.2s;">
+          무료 지도로 전환
+        </button>
+      </div>
+    </main>
+
+    <!-- 우측 사이드바: 추천 여행 동선 -->
+    <aside class="right-sidebar" id="right-sidebar">
+      <!-- 여행 일정/동선 섹션 -->
+      <section class="timeline-section">
+        <div class="timeline-header">
+          <h2 id="timeline-title">여행 코스를 검색해 보세요</h2>
+          <div class="timeline-actions">
+            <button id="optimize-btn" class="action-btn" title="동선 최적화 (가까운 순 정렬)" disabled>
+              <i class="fa-solid fa-wand-magic-sparkles"></i> 최적화
+            </button>
+          </div>
+        </div>
+        
+        <div class="transport-selector" id="transport-selector" style="display: none; gap: 8px; margin: 10px 0 15px 0;">
+          <button class="transport-btn active" data-mode="car" style="flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border-light); color: var(--text-main); font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; transition: 0.2s;">
+            <i class="fa-solid fa-car"></i> 자가용/렌터카
+          </button>
+          <button class="transport-btn" data-mode="walk" style="flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border-light); color: var(--text-muted); font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; transition: 0.2s;">
+            <i class="fa-solid fa-person-walking"></i> 도보
+          </button>
+        </div>
+        
+        <!-- 동선 카드 목록 리스트 (드래그 앤 드롭 영역) -->
+        <div class="card-list" id="card-list">
+          <div class="empty-state">
+            <i class="fa-solid fa-compass empty-icon"></i>
+            <p>가고 싶은 지역을 입력하시면<br>AI가 엄선한 8가지 테마 코스와<br>대중교통 이동 동선을 설계해 드립니다.</p>
+          </div>
+        </div>
+      </section>
+    </aside>
+    
+  </div>
+
+  <!-- 카카오 맵 API 설정 모달 -->
+  <div class="modal-overlay" id="api-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-gears"></i> 카카오 맵 API 설정</h3>
+        <button id="close-modal-btn" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>카카오 맵 API 키(Javascript 앱 키)를 입력하시면 더 정밀한 한국 지도를 사용하실 수 있습니다.</p>
+        <p class="modal-tip"><i class="fa-solid fa-info-circle"></i> 입력하지 않으셔도 <strong>무료 전세계 지도(Leaflet)</strong>가 자동으로 활성화됩니다.</p>
+        <div class="form-group">
+          <label for="kakao-key-input">카카오 Javascript APP KEY</label>
+          <input type="text" id="kakao-key-input" placeholder="예: 42168fdc10b784a921d782b5..." autocomplete="off">
+        </div>
+        <button id="save-key-btn" class="save-btn">설정 적용하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 프리미엄 구독 제한 안내 모달 -->
+  <div class="modal-overlay" id="subscription-modal">
+    <div class="modal-content" style="max-width: 420px; text-align: center; padding: 30px 24px;">
+      <div style="font-size: 56px; color: var(--secondary); margin-bottom: 15px;">
+        <i class="fa-solid fa-gem fa-bounce"></i>
+      </div>
+      <h3 style="font-size: 20px; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">무료 체험 3회 종료</h3>
+      <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+        무료로 제공되는 3회의 AI 여행 경로 추천 횟수를 모두 소진하셨습니다.<br>
+        계속해서 무제한 AI 테마 코스 추천과 최적 경로 분석 서비스를 이용하시려면 프리미엄 구독을 시작해 보세요.
+      </p>
+      
+      <div style="background: rgba(6, 182, 212, 0.06); border: 1px solid rgba(6, 182, 212, 0.2); padding: 15px; border-radius: 12px; margin-bottom: 24px; text-align: left;">
+        <div style="font-size: 12px; color: var(--secondary); font-weight: 700; text-transform: uppercase;">Premium Ticket</div>
+        <div style="font-size: 22px; font-weight: 800; color: var(--text-main); margin-top: 4px; display:flex; align-items: baseline; gap: 4px;">
+          월 3,900원 <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;">/ 무제한 플랜</span>
+        </div>
+        <ul style="font-size: 11px; color: var(--text-muted); padding-left: 16px; margin-top: 8px; line-height: 1.5; display:flex; flex-direction:column; gap: 4px;">
+          <li>AI 테마 코스 무제한 설계 (정교한 3km 이내 동선)</li>
+          <li>도보 및 자가용 최적 도로망 이동 정보 제공</li>
+          <li>나만의 코스 관리 및 영구 일정 공유 링크 생성</li>
+        </ul>
+      </div>
+
+      <button id="subscribe-action-btn" class="kakao-pay-btn" style="width: 100%; margin: 0 0 10px 0; font-size:14px; font-weight:700;">
+        <i class="fa-solid fa-comment"></i> 카카오페이로 3,900원 결제
+      </button>
+      <div style="font-size: 11px; color: var(--text-muted); text-decoration: underline; cursor: pointer; margin-top: 8px;" id="cancel-subscribe-modal">
+        다음에 할게요
+      </div>
+    </div>
+  </div>
+
+  <!-- 카카오페이 가상 결제 진행 모달 -->
+  <div class="modal-overlay" id="kakaopay-modal">
+    <div class="modal-content" style="max-width: 380px; text-align: center; padding: 30px 24px; border: 2px solid #FEE500; background: #191919;">
+      <div style="font-size: 36px; color: #FEE500; margin-bottom: 15px;">
+        <span style="font-family: 'Outfit', sans-serif; font-weight: 900; color: #FFF; letter-spacing: -1.5px;">kakao<span style="color: #FEE500; background: #3C1E1E; padding: 2px 6px; border-radius: 4px; font-size: 26px; margin-left: 2px;">pay</span></span>
+      </div>
+      
+      <!-- 결제 진행 중 (대기) -->
+      <div id="kakaopay-loading" class="payment-step">
+        <div style="position: relative; width: 60px; height: 60px; margin: 25px auto;">
+          <div class="pay-spinner"></div>
+          <i class="fa-solid fa-mobile-screen-button" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: #FEE500;"></i>
+        </div>
+        <h3 style="font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 8px;">결제 요청을 전송했습니다</h3>
+        <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6;">모바일 카카오톡 앱에서 결제 확인 후<br>승인 완료를 눌러주세요.</p>
+        <button id="kakaopay-simulate-approve-btn" class="save-btn" style="width: 100%; margin-top: 20px; background: #FEE500; color: #1e1e1e; font-weight: 700; border: none; font-size: 13px;">
+          결제 승인 완료하기 (시뮬레이션)
+        </button>
+      </div>
+
+      <!-- 결제 완료 (성공) -->
+      <div id="kakaopay-success" class="payment-step" style="display: none;">
+        <div style="font-size: 52px; color: #4ADE80; margin: 20px 0;">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h4 style="font-size: 18px; color: #FFF; font-weight: 700; margin-bottom: 8px;">결제가 성공했습니다!</h4>
+        <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">이제 무제한으로 AI 여행 코스 설계 및<br>최적 동선 추천 기능을 사용하실 수 있습니다.</p>
+        <button id="kakaopay-confirm-btn" class="save-btn" style="width: 100%; margin-top: 20px; background: #FEE500; color: #1e1e1e; font-weight: 700; border: none;">시작하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 카카오 가상 로그인 모달 -->
+  <div class="modal-overlay" id="kakao-login-modal">
+    <div class="modal-content" style="max-width: 360px; text-align: center; padding: 30px 24px; background: #FFF; color: #191919; border-radius: 16px;">
+      <div style="font-size: 44px; color: #FEE500; text-shadow: 0 2px 4px rgba(0,0,0,0.15); margin-bottom: 12px;">
+        <i class="fa-solid fa-comment" style="color: #3C1E1E;"></i>
+      </div>
+      <h3 style="font-size: 18px; font-weight: 800; color: #3C1E1E; margin-bottom: 8px;">카카오 계정으로 로그인</h3>
+      <p style="font-size: 12px; color: #666; margin-bottom: 24px; line-height: 1.5;">
+        TraveRoute에서 카카오 계정 정보를 조회하여<br>프로필 및 서비스 무료 체험 이력을 관리합니다.
+      </p>
+      
+      <div style="text-align: left; margin-bottom: 20px;">
+        <label style="font-size: 11px; font-weight: 700; color: #666; display: block; margin-bottom: 6px;">사용할 닉네임 입력</label>
+        <input type="text" id="kakao-input-nickname" value="낭만여행자" placeholder="닉네임을 입력해주세요" style="width: 100%; background: #F2F2F2; border: 1px solid #DDD; color: #191919; border-radius: 8px; padding: 12px; font-size:14px; font-weight: 500; outline:none; box-sizing: border-box;">
+      </div>
+      
+      <button id="kakao-confirm-login-btn" class="kakao-btn" style="width: 100%; font-weight: 700; font-size: 14px; padding: 12px; justify-content: center; box-sizing: border-box;">
+        동의하고 로그인하기
+      </button>
+      <div style="font-size: 11px; color: #666; text-decoration: underline; cursor: pointer; margin-top: 14px;" id="close-kakao-login-modal">
+        취소
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS (Fallback Map) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""></script>
+  
+  <!-- Kakao Map SDK -->
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=77b6cdf6fde6d5f4407df04cf82d3d78&libraries=services"></script>
+  
+  <!-- Custom JS -->
+  <script src="app.js?v=202606162246"></script>
+</body>
+</html>
