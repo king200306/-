@@ -1,0 +1,1268 @@
+/* CSS Variable definition for premium palette */
+:root {
+  --primary: #1a73e8;
+  --primary-glow: rgba(26, 115, 232, 0.15);
+  --success: #34a853;
+  --warning: #f9ab00;
+  --danger: #d93025;
+  --dark-slate: #202124;
+  --light-slate: #5f6368;
+  
+  --bg-grid-color: rgba(0, 0, 0, 0.04);
+  --bg-slide: #f1f3f4;
+  --card-bg: #ffffff;
+  
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.1);
+  
+  --font-family: 'Outfit', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Global Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: #e8eaed;
+  color: var(--dark-slate);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 60px; /* Space for the header */
+}
+
+/* Header UI (Only on Screen) */
+.presentation-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #dadce0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.logo strong {
+  color: var(--dark-slate);
+}
+
+.icon-pulse {
+  animation: pulse 2s infinite;
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-btn {
+  background-color: #ffffff;
+  border: 1px solid #dadce0;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  background-color: #f8f9fa;
+  border-color: #c4c7c5;
+}
+
+.slide-indicator {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--light-slate);
+  min-width: 60px;
+  text-align: center;
+}
+
+.pdf-btn {
+  background-color: var(--primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.pdf-btn:hover {
+  background-color: #1557b0;
+}
+
+/* Presentation Deck Viewport */
+.presentation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin: 30px 0;
+}
+
+/* SLIDE BASE STYLES */
+.slide {
+  width: 297mm;
+  height: 210mm;
+  background-color: var(--bg-slide);
+  background-image: 
+    linear-gradient(to right, var(--bg-grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bg-grid-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+  display: none; /* Hidden on screen unless active */
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid #dadce0;
+}
+
+.slide.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Outer card element to look like the template */
+.window-card {
+  width: 100%;
+  height: 100%;
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  border: 1px solid #dadce0;
+  box-shadow: var(--shadow-md);
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  z-index: 5;
+}
+
+.window-decorations {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+.dot-decor {
+  width: 6px;
+  height: 6px;
+  background-color: #dadce0;
+  border-radius: 50%;
+}
+
+.slide-content {
+  flex-grow: 1;
+  display: flex;
+  width: 100%;
+  height: calc(100% - 30px); /* Leave room for footer */
+  padding-top: 50px; /* Leave space for absolute badges */
+}
+
+.center-content {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+/* Footer Section */
+.slide-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f1f3f4;
+  padding-top: 10px;
+  height: 30px;
+}
+
+.footer-left {
+  font-size: 11px;
+  color: var(--light-slate);
+  letter-spacing: 0.5px;
+}
+
+.arrow-next-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fbb03b;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.arrow-next-btn:hover {
+  background-color: #f99f1b;
+  transform: scale(1.08);
+}
+
+/* 1. Title Slide Styling */
+.main-title-group {
+  margin-bottom: 24px;
+}
+
+.sub-title {
+  font-size: 38px;
+  font-weight: 500;
+  color: #202124;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.main-title {
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.badge-capsule {
+  background-color: #e8eaed;
+  border-radius: 20px;
+  padding: 8px 32px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3c4043;
+}
+
+/* 2. Contents Slide Redesign (Split Layout to fill space) */
+.contents-left-pane {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 2px solid #202124;
+  padding-right: 30px;
+}
+
+.contents-title-main {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--dark-slate);
+}
+
+.contents-subtitle {
+  font-size: 14px;
+  color: var(--light-slate);
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.contents-decor-bar {
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary);
+  margin-top: 24px;
+  border-radius: 2px;
+}
+
+.contents-right-pane {
+  width: 65%;
+  padding-left: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.contents-grid-new {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 24px;
+  row-gap: 12px;
+  width: 100%;
+}
+
+.contents-item-new {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  transition: all 0.2s ease;
+}
+
+.contents-item-new:hover {
+  border-color: var(--primary);
+  background-color: #ffffff;
+  transform: translateX(6px);
+  box-shadow: var(--shadow-sm);
+}
+
+.contents-item-new .num {
+  background-color: var(--primary);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 16px;
+}
+
+.contents-item-new .text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #3c4043;
+  flex-grow: 1;
+}
+
+.contents-item-new svg {
+  width: 14px;
+  height: 14px;
+  color: #bdc1c6;
+  transition: color 0.2s ease;
+}
+
+.contents-item-new:hover svg {
+  color: var(--primary);
+}
+
+/* 3. Introduction Slide Styling (Split Layout) */
+.split-layout {
+  display: flex;
+  gap: 36px;
+}
+
+.left-image-pane {
+  width: 38%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rounded-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: var(--shadow-md);
+  border: 1px solid #e0e0e0;
+}
+
+.right-text-pane {
+  width: 62%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.slide-indicator-badge {
+  position: absolute;
+  top: 24px;
+  left: 32px;
+  width: 44px;
+  height: 32px;
+  border: 1.5px solid #202124;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: #ffffff;
+}
+
+.title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  margin-left: 0; /* Aligns clean on left */
+}
+
+.title-with-icon h2 {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #202124;
+}
+
+.icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-yellow { background-color: #fbb03b; }
+.bg-orange { background-color: #ea4335; }
+.bg-blue { background-color: #1a73e8; }
+
+.text-white { color: white; }
+
+.intro-description {
+  margin-bottom: 12px;
+}
+
+.intro-description h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #202124;
+}
+
+.intro-description p {
+  font-size: 12.5px;
+  color: #5f6368;
+  line-height: 1.45;
+}
+
+.system-components h4 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #202124;
+}
+
+.system-components ol {
+  padding-left: 16px;
+}
+
+.system-components li {
+  font-size: 11px;
+  color: #3c4043;
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+
+/* 4. Slide 4 Redesign */
+.problems-grid-new {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.problem-card-new {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border-left: 4px solid var(--danger);
+  border-top: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 20px 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.prob-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prob-badge {
+  background-color: rgba(217, 48, 37, 0.1);
+  color: var(--danger);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.prob-header h3 {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--dark-slate);
+  line-height: 1.3;
+}
+
+.problem-card-new p {
+  font-size: 11px;
+  color: #5f6368;
+  line-height: 1.45;
+}
+
+/* 5. Improvement Goals Slide Styling */
+.goals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.goal-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.goal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.goal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.goal-header h3 {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.35;
+}
+
+.search-icon-small {
+  width: 12px;
+  height: 12px;
+  color: #bdc1c6;
+}
+
+.goal-icon-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.goal-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #f1f3f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3c4043;
+}
+
+.goal-body p {
+  font-size: 11px;
+  color: #5f6368;
+  line-height: 1.45;
+  margin-bottom: 6px;
+}
+
+/* 6. DFD & ERD Slides Redesigned (Sidebar + large diagram area) */
+.diagram-layout {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+}
+
+.diagram-sidebar-new {
+  width: 22%; /* Slightly wider to prevent text clipping */
+  border-right: 2px solid #202124;
+  padding-right: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.diagram-sidebar-new h2 {
+  font-size: 24px; /* Slightly smaller to fit landscape print better */
+  font-weight: 800;
+  line-height: 1.2;
+  color: #202124;
+}
+
+.diagram-desc-card {
+  background-color: #f8f9fa;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 10px 0;
+}
+
+.diagram-desc-card h4 {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.diagram-desc-card p {
+  font-size: 9.5px;
+  color: #5f6368;
+  line-height: 1.4;
+}
+
+.diagram-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed #dadce0;
+}
+
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  font-weight: 600;
+  color: #3c4043;
+}
+
+.leg-box {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+  text-align: center;
+  line-height: 14px;
+  font-size: 8px;
+  color: white;
+}
+
+.leg-box.bg-p { background-color: #1a73e8; }
+.leg-box.bg-e { background-color: #00c2ff; }
+.leg-box.pk-box { background-color: #c7254e; }
+.leg-box.fk-box { background-color: #1b809e; }
+
+.leg-circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #a6e22e;
+  background-color: white;
+  display: inline-block;
+  text-align: center;
+  line-height: 11px;
+  font-size: 7px;
+}
+
+.leg-store {
+  width: 20px;
+  height: 10px;
+  border-top: 1.5px solid #f5a623;
+  border-bottom: 1.5px solid #f5a623;
+  display: inline-block;
+}
+
+.diagram-area-new {
+  width: 78%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fafafa;
+  border-radius: 12px;
+  border: 1px dashed #dadce0;
+  padding: 8px;
+  overflow: hidden;
+}
+
+/* DFD SVG Interactivity Styles */
+.dfd-process-node circle {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.dfd-process-node:hover circle {
+  fill: #1557b0;
+  stroke: #1557b0;
+  filter: drop-shadow(0 4px 12px rgba(26, 115, 232, 0.4));
+}
+
+.dfd-entity-node rect {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.dfd-entity-node:hover rect {
+  fill: #1a73e8;
+  stroke: #1a73e8;
+  filter: drop-shadow(0 4px 12px rgba(26, 115, 232, 0.3));
+}
+.dfd-entity-node:hover text {
+  fill: #ffffff;
+}
+
+.dfd-arrow {
+  fill: none;
+  stroke: #7f8c8d;
+  stroke-width: 1.5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.dfd-arrow-label {
+  fill: #5f6368;
+  font-weight: 500;
+  cursor: pointer;
+  transition: fill 0.3s ease;
+}
+
+/* Hover highlights */
+.dfd-flow-hovered .dfd-arrow {
+  stroke: #1a73e8;
+  stroke-width: 3px;
+  marker-end: url(#arrow-active);
+  filter: drop-shadow(0 2px 4px rgba(26, 115, 232, 0.3));
+}
+.dfd-flow-hovered .dfd-arrow-label {
+  fill: #1a73e8;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.dfd-tooltip {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(32, 33, 36, 0.9);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 11px;
+  pointer-events: none;
+  box-shadow: var(--shadow-md);
+  transition: opacity 0.2s ease;
+  z-index: 20;
+}
+
+/* 7. Data Dictionary (DD) Slide Styling */
+.table-area {
+  width: 78%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.dd-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #dadce0;
+}
+
+.dd-table th {
+  background-color: #f8f9fa;
+  color: var(--dark-slate);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 12px 14px;
+  border-bottom: 2px solid #dadce0;
+  text-align: left;
+}
+
+.dd-table td {
+  padding: 12px 14px;
+  font-size: 11.5px;
+  border-bottom: 1px solid #dadce0;
+  color: #3c4043;
+}
+
+.dd-table tr:last-child td {
+  border-bottom: none;
+}
+
+.dd-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.highlight-td {
+  font-weight: 700;
+  color: var(--primary);
+  min-width: 150px;
+}
+
+/* 8. Interface Demo Slide Styling */
+.interface-grid {
+  display: flex;
+  gap: 30px;
+  height: 100%;
+}
+
+.interface-info-panel {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-block-card {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+}
+
+.info-block-card h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--primary);
+}
+
+.info-block-card p {
+  font-size: 11.5px;
+  color: #5f6368;
+  line-height: 1.5;
+}
+
+.interface-demo-panel {
+  width: 65%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Tablet Device Mockup */
+.tablet-frame {
+  width: 100%;
+  max-width: 520px;
+  height: 480px;
+  background-color: #202124;
+  border-radius: 20px;
+  padding: 8px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #3c4043;
+}
+
+.tablet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #2d2e30;
+  border-radius: 14px 14px 0 0;
+  border-bottom: 1px solid #3c4043;
+}
+
+.pet-profile-mini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pet-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #1a73e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.pet-avatar svg {
+  width: 16px;
+  height: 16px;
+}
+
+.pet-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.pet-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.pet-desc {
+  font-size: 8.5px;
+  color: #bdc1c6;
+}
+
+.system-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #00e676;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00e676;
+  animation: pulse-dot 1.5s infinite;
+}
+
+.status-lbl {
+  font-size: 9px;
+  color: #bdc1c6;
+}
+
+.tablet-body {
+  flex-grow: 1;
+  background-color: #121214;
+  border-radius: 0 0 14px 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+/* Scrollbar for tablet body */
+.tablet-body::-webkit-scrollbar {
+  width: 4px;
+}
+.tablet-body::-webkit-scrollbar-thumb {
+  background-color: #3c4043;
+  border-radius: 2px;
+}
+
+.live-values {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.val-card {
+  background-color: #1e1e24;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #2d2e30;
+}
+
+.val-lbl {
+  font-size: 8.5px;
+  color: #80868b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.val-lbl svg {
+  width: 10px;
+  height: 10px;
+}
+
+.val-num {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.val-num small {
+  font-size: 9px;
+  font-weight: 400;
+  color: #80868b;
+}
+
+.icon-heart-pulse {
+  color: #ff5252;
+  animation: pulse 1s infinite;
+}
+.icon-temp { color: #ffeb3b; }
+.icon-steps { color: #00e5ff; }
+
+.chart-container {
+  height: 160px;
+  background-color: #1e1e24;
+  border-radius: 8px;
+  padding: 6px;
+  border: 1px solid #2d2e30;
+}
+
+.ai-action-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ai-calc-btn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.ai-calc-btn:hover {
+  background-color: #1557b0;
+}
+
+.recommendation-results {
+  background-color: #1e1e24;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid #33b5e5;
+  display: flex;
+  gap: 10px;
+}
+
+.recommendation-results.hidden {
+  display: none;
+}
+
+.rec-score-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(51, 181, 229, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+  min-width: 70px;
+}
+
+.score-lbl {
+  font-size: 8px;
+  color: #bdc1c6;
+}
+
+.score-num {
+  font-size: 18px;
+  font-weight: 800;
+  color: #33b5e5;
+  margin-top: 2px;
+}
+
+.rec-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.rec-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.rec-tag {
+  font-size: 7.5px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 3px;
+  width: fit-content;
+}
+
+.bg-pink { background-color: #ff4081; color: white; }
+.bg-yellow { background-color: #ffbb33; color: black; }
+
+.rec-name {
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+  margin-top: 2px;
+}
+
+.rec-reason {
+  font-size: 8px;
+  color: #80868b;
+  margin-top: 1px;
+}
+
+/* 9. Slide 14 Thank You Styling */
+.thank-left-image {
+  width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.thank-img {
+  width: 80%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.thank-text {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.thank-title {
+  font-size: 64px;
+  font-weight: 900;
+  color: #8cc63f;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  animation: float 4s ease-in-out infinite;
+}
+
+.thank-sub {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--light-slate);
+}
+
+/* ANIMATIONS */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(0.95); opacity: 0.5; }
+  50% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.5; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-pop {
+  animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* PRINT MEDIA STYLES FOR PDF - Responsive scaling to prevent cropping */
+@media print {
+  @page {
+    size: landscape; /* Use general landscape to adapt to user paper size */
+    margin: 0;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .presentation-container {
+    margin: 0;
+    gap: 0;
+    width: 100vw;
+  }
+  
+  .slide {
+    display: flex !important;
+    width: 100vw !important; /* Scale to viewport width */
+    height: 100vh !important; /* Scale to viewport height */
+    page-break-after: always !important;
+    break-after: page !important;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    margin: 0 !important;
+    padding: 24px !important; /* Keep safe margins inside the card */
+    background-color: var(--bg-slide) !important;
+    background-image: 
+      linear-gradient(to right, var(--bg-grid-color) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--bg-grid-color) 1px, transparent 1px) !important;
+    box-sizing: border-box !important;
+  }
+
+  .window-card {
+    border: 1px solid #dadce0;
+    box-shadow: none;
+    border-radius: 12px;
+    padding: 24px 30px;
+    width: 100% !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Always show AI recommendation results and hide button in printed PDF */
+  .ai-calc-btn {
+    display: none !important;
+  }
+  .recommendation-results.hidden {
+    display: flex !important;
+  }
+  .tablet-body {
+    overflow: visible !important;
+  }
+}

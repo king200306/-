@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>반려동물 맞춤형 헬스케어 및 IoT 건강 모니터링 시스템 - 시스템 분석 및 설계</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js for Live Dashboard -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Screen Presentation Navigation Interface -->
+  <div class="presentation-header no-print">
+    <div class="logo">
+      <i data-lucide="heart-pulse" class="icon-pulse"></i>
+      <span>PetCare <strong>IoT</strong></span>
+    </div>
+    <div class="nav-controls">
+      <button id="prev-btn" class="nav-btn"><i data-lucide="chevron-left"></i>이전</button>
+      <span class="slide-indicator"><span id="current-slide-num">1</span> / 14</span>
+      <button id="next-btn" class="nav-btn">다음<i data-lucide="chevron-right"></i></button>
+      <button id="print-pdf-btn" class="pdf-btn"><i data-lucide="file-text"></i> PDF 다운로드</button>
+    </div>
+  </div>
+
+  <!-- Main Slides Container -->
+  <div class="presentation-container">
+
+    <!-- SLIDE 1: TITLE PAGE -->
+    <section class="slide active" id="slide-1">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content center-content title-bg">
+          <div class="main-title-group animate-pop">
+            <h2 class="sub-title">반려동물 맞춤형 헬스케어 및</h2>
+            <h1 class="main-title text-gradient">IoT 건강 모니터링 시스템</h1>
+          </div>
+          <div class="badge-capsule">
+            <span>시스템 분석 및 설계</span>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">PetCare IoT System Analysis & Design</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(2)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: CONTENTS -->
+    <section class="slide" id="slide-2">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content split-layout">
+          <div class="contents-left-pane">
+            <h2 class="contents-title-main">CONTENTS</h2>
+            <p class="contents-subtitle">시스템 개발 생명주기(SDLC)에 따른<br>분석 및 설계 산출물 목차</p>
+            <div class="contents-decor-bar"></div>
+          </div>
+          <div class="contents-right-pane">
+            <div class="contents-grid-new">
+              <div class="contents-item-new" onclick="goToSlide(3)">
+                <span class="num">01</span>
+                <span class="text">반려동물 IoT 건강 모니터링 시스템 소개</span>
+                <i data-lucide="arrow-right"></i>
+              </div>
+              <div class="contents-item-new" onclick="goToSlide(8)">
+                <span class="num">05</span>
+                <span class="text">Level 2 DFD + DD (회원/펫 관리)</span>
+                <i data-lucide="arrow-right"></i>
+              </div>
+              <div class="contents-item-new" onclick="goToSlide(4)">
+                <span class="num">02</span>
+                <span class="text">반려동물 케어 현황과 문제점</span>
+                <i data-lucide="arrow-right"></i>
+              </div>
+              <div class="contents-item-new" onclick="goToSlide(10)">
+                <span class="num">06</span>
+                <span class="text">Level 3 DFD + DD (생체데이터 분석)</span>
+                <i data-lucide="arrow-right"></i>
+              </div>
+              <div class="contents-item-new" onclick="goToSlide(5)">
+                <span class="num">03</span>
+                <span class="text">반려동물 케어시스템 개선 목표방향</span>
+                <i data-lucide="arrow-right"></i>
+              </div>
+              <div class="contents-item-new" onclick="goToSlide(12)">
+                <span class="num">07</span>
+                <span class="text">ERD (개체 관계도)</span>
+                <i data-lucide="arrow-right"></i>
+              </div>
+              <div class="contents-item-new" onclick="goToSlide(6)">
+                <span class="num">04</span>
+                <span class="text">DFD 배경도, Level 1 DFD</span>
+                <i data-lucide="arrow-right"></i>
+              </div>
+              <div class="contents-item-new" onclick="goToSlide(13)">
+                <span class="num">08</span>
+                <span class="text">인터페이스 구현 (실시간 대시보드 데모)</span>
+                <i data-lucide="arrow-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">목차 및 시스템 설계 로드맵</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(3)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: 01. INTRODUCTION -->
+    <section class="slide" id="slide-3">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content split-layout">
+          <!-- Slide Indicator Header -->
+          <div class="slide-indicator-badge">01</div>
+          
+          <div class="left-image-pane">
+            <img src="assets/smart_pet_collar.png" alt="스마트 펫 칼라" class="rounded-image">
+          </div>
+          
+          <div class="right-text-pane">
+            <div class="title-with-icon">
+              <span class="icon-circle bg-yellow"><i data-lucide="lightbulb" class="text-white"></i></span>
+              <h2>반려동물 IoT 건강<br>모니터링 시스템 소개</h2>
+            </div>
+            <div class="intro-description">
+              <h3>반려동물 IoT 건강 모니터링 시스템이란?</h3>
+              <p>반려동물의 생체 정보(체온, 심박수, 활동량)를 IoT 목줄을 통해 수집·분석하여 그에 맞는 최적의 건강 상태 분석 및 맞춤 케어를 추천하고, 수의사에게 데이터를 공유하는 시스템입니다.</p>
+            </div>
+            <div class="system-components">
+              <h4>시스템의 주요 구성 요소</h4>
+              <ol>
+                <li><strong>반려동물 데이터 수집:</strong> IoT 목줄 기반 센서 데이터 (체온, 심박수, 움직임 등) 실시간 수집</li>
+                <li><strong>보호자 모바일 앱:</strong> 실시간 반려견 관리, 이상 징후 알림, 케어 추천 및 사료/영양제 주문</li>
+                <li><strong>AI 이상 징후 분석 엔진:</strong> 수집된 시계열 데이터를 바탕으로 건강 지표 점수화 및 이상 상태 감지</li>
+                <li><strong>수의사 웹 대시보드:</strong> 실시간 및 과거 생체 데이터 조회, 정밀 진단 자료 제공</li>
+                <li><strong>사료 및 영양제 유통 파트너사 연동:</strong> 추천된 맞춤 식단 및 보조제의 신속 배송 처리</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">01. 반려동물 IoT 건강 모니터링 시스템 소개</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(4)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: 02. CURRENT STATUS & PROBLEMS -->
+    <section class="slide blue-theme" id="slide-4">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content flex-column font-korean-heavy">
+          <div class="slide-indicator-badge">02</div>
+          
+          <div class="title-with-icon">
+            <span class="icon-circle bg-orange"><i data-lucide="alert-triangle" class="text-white"></i></span>
+            <h2 class="dark-title">반려동물 케어 현황과 문제점</h2>
+          </div>
+          
+          <div class="problems-grid-new">
+            <div class="problem-card-new">
+              <div class="prob-header">
+                <span class="prob-badge">보호자 기록</span>
+                <h3>수동 기록 방식의 신뢰성 결여</h3>
+              </div>
+              <p>반려견의 식습관 및 건강 이상 증상을 보호자가 육안 관찰 후 수동으로 기록해야 하므로, 미세한 신체 변화를 놓치기 쉽고 주관적 해석으로 기록의 정확성이 결여됩니다.</p>
+            </div>
+            <div class="problem-card-new">
+              <div class="prob-header">
+                <span class="prob-badge">생체 신호</span>
+                <h3>바이탈 모니터링 체계 부재</h3>
+              </div>
+              <p>반려동물은 통증을 스스로 말로 표현할 수 없어, 질병이 임상적 증상으로 발현되어 병원을 찾았을 때는 이미 중증 이상 진행된 경우가 많아 골든타임을 상실합니다.</p>
+            </div>
+            <div class="problem-card-new">
+              <div class="prob-header">
+                <span class="prob-badge">전문성 부족</span>
+                <h3>비전문적 정보에 의존한 처방</h3>
+              </div>
+              <p>전문 수의학적 근거나 체온, 심박 등 객관적인 데이터 없이 커뮤니티 추천이나 과장 광고에 의존해 영양제나 사료를 임의 처방 급여하여 간/신장 기능 부작용을 야기합니다.</p>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">02. 반려동물 케어 현황과 문제점</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(5)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: 03. IMPROVEMENT GOALS -->
+    <section class="slide" id="slide-5">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content flex-column">
+          <div class="slide-indicator-badge">03</div>
+          
+          <div class="title-with-icon">
+            <span class="icon-circle bg-blue"><i data-lucide="atom" class="text-white"></i></span>
+            <h2>반려동물 케어 시스템 개선 목표 방향</h2>
+          </div>
+          
+          <div class="goals-grid">
+            <div class="goal-card">
+              <div class="goal-header">
+                <h3>IoT 기반 자동 수집 및<br>실시간 모니터링</h3>
+                <i data-lucide="search" class="search-icon-small"></i>
+              </div>
+              <div class="goal-icon-container">
+                <span class="goal-badge"><i data-lucide="activity"></i></span>
+              </div>
+              <div class="goal-body">
+                <p>1. 가벼운 스마트 목줄 및 IoT 급식기 연동을 통한 실시간 건강 데이터 수집 인프라 구축</p>
+                <p>2. 보호자 입력 최소화 및 생체 데이터 수집의 정확도 극대화</p>
+              </div>
+            </div>
+            
+            <div class="goal-card">
+              <div class="goal-header">
+                <h3>AI 기반 이상 징후<br>조기 감지 엔진 도입</h3>
+                <i data-lucide="search" class="search-icon-small"></i>
+              </div>
+              <div class="goal-icon-container">
+                <span class="goal-badge"><i data-lucide="smartphone"></i></span>
+              </div>
+              <div class="goal-body">
+                <p>1. 기계학습 기반의 생체 신호 분석을 통해 반려견별 건강 기준(Baseline) 수립 및 이상치 실시간 감지</p>
+                <p>2. 질병 조기 예방 및 위급 상황 자동 알림 시스템 구축</p>
+              </div>
+            </div>
+            
+            <div class="goal-card">
+              <div class="goal-header">
+                <h3>전문 수의학 기준<br>맞춤 처방 및 연계</h3>
+                <i data-lucide="search" class="search-icon-small"></i>
+              </div>
+              <div class="goal-icon-container">
+                <span class="goal-badge"><i data-lucide="handshake"></i></span>
+              </div>
+              <div class="goal-body">
+                <p>1. 수의사 및 전문 동물 영양학 기준 데이터를 기반으로 사료 및 영양제 추천 필터링 구축</p>
+                <p>2. 수의사 웹 포털 연동을 통해 원격 모니터링 기반 상담 및 정밀 진찰 지원</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">03. 반려동물 케어 시스템 개선 목표 방향</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(6)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: 04-1. DFD CONTEXT DIAGRAM -->
+    <section class="slide" id="slide-6">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content diagram-layout">
+          <div class="slide-indicator-badge">04-1</div>
+          
+          <div class="diagram-sidebar-new">
+            <h2>DFD 배경도</h2>
+            <div class="diagram-desc-card">
+              <h4>배경도 정의</h4>
+              <p>시스템과 외부 엔티티(실체) 간의 최상위 자료 경계를 명시한 흐름도입니다. 모든 자료 흐름은 명사로 정형화되었습니다.</p>
+            </div>
+            <div class="diagram-legend">
+              <div class="leg-item"><span class="leg-box bg-p">P</span> <span>처리기(Process)</span></div>
+              <div class="leg-item"><span class="leg-box bg-e">E</span> <span>외부실체(Entity)</span></div>
+            </div>
+          </div>
+          
+          <div class="diagram-area-new">
+            <svg viewBox="0 0 800 500" width="100%" height="100%" id="dfd-context-svg">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#78909c" />
+                </marker>
+                <marker id="arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a73e8" />
+                </marker>
+                <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                  <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.1" />
+                </filter>
+              </defs>
+              
+              <!-- System Center Process -->
+              <g class="dfd-process-node" data-node="center" transform="translate(400, 250)">
+                <circle cx="0" cy="0" r="75" fill="#1a73e8" stroke="#1557b0" stroke-width="2" filter="url(#shadow)" />
+                <text x="0" y="-12" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">반려동물건강</text>
+                <text x="0" y="8" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">모니터링시스템</text>
+                <text x="0" y="28" text-anchor="middle" fill="#ffffff" font-size="10" fill-opacity="0.8">P 0.0</text>
+              </g>
+              
+              <!-- External Entity: 보호자 -->
+              <g class="dfd-entity-node" data-node="owner" transform="translate(100, 110)">
+                <rect x="-55" y="-22" width="110" height="44" rx="6" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2" filter="url(#shadow)" />
+                <text x="0" y="5" text-anchor="middle" fill="#1a73e8" font-size="13" font-weight="bold">보호자</text>
+              </g>
+
+              <!-- External Entity: IoT 목줄 -->
+              <g class="dfd-entity-node" data-node="collar" transform="translate(400, 60)">
+                <rect x="-55" y="-22" width="110" height="44" rx="6" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2" filter="url(#shadow)" />
+                <text x="0" y="5" text-anchor="middle" fill="#1a73e8" font-size="13" font-weight="bold">IoT 목줄</text>
+              </g>
+
+              <!-- External Entity: 수의사 -->
+              <g class="dfd-entity-node" data-node="vet" transform="translate(700, 110)">
+                <rect x="-55" y="-22" width="110" height="44" rx="6" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2" filter="url(#shadow)" />
+                <text x="0" y="5" text-anchor="middle" fill="#1a73e8" font-size="13" font-weight="bold">수의사</text>
+              </g>
+
+              <!-- External Entity: AI 분석 엔진 -->
+              <g class="dfd-entity-node" data-node="ai" transform="translate(100, 390)">
+                <rect x="-55" y="-22" width="110" height="44" rx="6" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2" filter="url(#shadow)" />
+                <text x="0" y="5" text-anchor="middle" fill="#1a73e8" font-size="13" font-weight="bold">AI 분석 엔진</text>
+              </g>
+
+              <!-- External Entity: 결제 대행사 -->
+              <g class="dfd-entity-node" data-node="pg" transform="translate(400, 440)">
+                <rect x="-55" y="-22" width="110" height="44" rx="6" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2" filter="url(#shadow)" />
+                <text x="0" y="5" text-anchor="middle" fill="#1a73e8" font-size="13" font-weight="bold">결제 대행사</text>
+              </g>
+
+              <!-- External Entity: 사료/영양제 유통사 -->
+              <g class="dfd-entity-node" data-node="supplier" transform="translate(700, 390)">
+                <rect x="-55" y="-22" width="110" height="44" rx="6" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2" filter="url(#shadow)" />
+                <text x="0" y="5" text-anchor="middle" fill="#1a73e8" font-size="13" font-weight="bold">유통사</text>
+              </g>
+
+              <!-- DATA FLOW ARROWS (Curated badges with thin grey borders) -->
+              <!-- 1. 보호자 <-> 시스템 -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" id="f-owner-to-sys" d="M 125,130 Q 260,180 330,215" stroke="#78909c" stroke-width="1.2" />
+                <rect x="125" y="154" width="170" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text class="dfd-arrow-label" x="210" y="164" font-size="8.5" text-anchor="middle" fill="#2e7d32" font-weight="500">회원등록신청서, 주문결제요청서</text>
+              </g>
+
+              <g class="dfd-flow">
+                <path class="dfd-arrow" id="f-sys-to-owner" d="M 335,200 Q 230,135 120,120" stroke="#78909c" stroke-width="1.2" />
+                <rect x="105" y="104" width="170" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text class="dfd-arrow-label" x="190" y="114" font-size="8.5" text-anchor="middle" fill="#2e7d32" font-weight="500">맞춤케어추천서, 건강경보알림서</text>
+              </g>
+
+              <!-- 2. IoT 목줄 -> 시스템 -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" id="f-collar-to-sys" d="M 400,82 L 400,175" stroke="#78909c" stroke-width="1.2" />
+                <rect x="360" y="120" width="80" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text class="dfd-arrow-label" x="400" y="130" font-size="8.5" text-anchor="middle" fill="#2e7d32" font-weight="500">실시간센서측정값</text>
+              </g>
+
+              <!-- 3. 수의사 <-> 시스템 -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" id="f-sys-to-vet" d="M 465,215 Q 590,180 675,130" stroke="#78909c" stroke-width="1.2" />
+                <rect x="530" y="154" width="90" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text class="dfd-arrow-label" x="575" y="164" font-size="8.5" text-anchor="middle" fill="#2e7d32" font-weight="500">환견생체보고서</text>
+              </g>
+
+              <g class="dfd-flow">
+                <path class="dfd-arrow" id="vet-to-sys" d="M 680,130 Q 600,240 470,245" stroke="#78909c" stroke-width="1.2" />
+                <rect x="550" y="199" width="90" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text class="dfd-arrow-label" x="595" y="209" font-size="8.5" text-anchor="middle" fill="#2e7d32" font-weight="500">진료처방소견서</text>
+              </g>
+
+              <!-- 4. 시스템 <-> AI 분석 엔진 -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" id="f-sys-to-ai" d="M 345,285 Q 220,325 135,370" stroke="#78909c" stroke-width="1.2" />
+                <rect x="200" y="314" width="90" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text class="dfd-arrow-label" x="245" y="324" font-size="8.5" text-anchor="middle" fill="#2e7d32" font-weight="500">시계열생체로그</text>
+              </g>
+
+              <g class="dfd-flow">
+                <path class="dfd-arrow" id="f-ai-to-sys" d="M 145,380 Q 260,365 330,300" stroke="#78909c" stroke-width="1.2" />
+                <rect x="200" y="344" width="90" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text class="dfd-arrow-label" x="245" y="354" font-size="8.5" text-anchor="middle" fill="#2e7d32" font-weight="500">이상징후분석서</text>
+              </g>
+
+              <!-- 5. Systems <-> PG -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" id="f-sys-to-pg" d="M 390,325 L 390,418" stroke="#78909c" stroke-width="1.2" />
+                <rect x="350" y="365" width="80" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text class="dfd-arrow-label" x="390" y="375" font-size="8.5" text-anchor="middle" fill="#2e7d32" font-weight="500">결제승인요청서</text>
+              </g>
+
+              <g class="dfd-flow">
+                <path class="dfd-arrow" id="f-pg-to-sys" d="M 410,418 L 410,325" stroke="#78909c" stroke-width="1.2" />
+                <rect x="370" y="335" width="80" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text class="dfd-arrow-label" x="410" y="345" font-size="8.5" text-anchor="middle" fill="#2e7d32" font-weight="500">결제완료확인서</text>
+              </g>
+
+              <!-- 6. Systems <-> Suppliers -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" id="f-sys-to-supplier" d="M 465,285 Q 590,325 665,370" stroke="#78909c" stroke-width="1.2" />
+                <rect x="525" y="314" width="110" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text class="dfd-arrow-label" x="580" y="324" font-size="8.5" text-anchor="middle" fill="#2e7d32" font-weight="500">사료영양제배송요청서</text>
+              </g>
+
+              <g class="dfd-flow">
+                <path class="dfd-arrow" id="f-supplier-to-sys" d="M 655,380 Q 560,365 460,300" stroke="#78909c" stroke-width="1.2" />
+                <rect x="510" y="344" width="90" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text class="dfd-arrow-label" x="555" y="354" font-size="8.5" text-anchor="middle" fill="#2e7d32" font-weight="500">배송상태확인서</text>
+              </g>
+            </svg>
+            <div id="dfd-tooltip" class="dfd-tooltip no-print">마우스 오버 시 흐름도가 하이라이트됩니다.</div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">04-1. DFD 배경도 (Context Diagram - 최상위 자료 경계 설계)</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(7)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: 04-2. LEVEL 1 DFD -->
+    <section class="slide" id="slide-7">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content diagram-layout">
+          <div class="slide-indicator-badge">04-2</div>
+          
+          <div class="diagram-sidebar-new">
+            <h2>Level 1 DFD</h2>
+            <div class="diagram-desc-card">
+              <h4>동사형 처리기 준수</h4>
+              <p>모든 처리기(1.0~5.0)는 동사형 명사("관리", "발송")로 종결되어 명확한 동작의 의미를 부여합니다.</p>
+              <p>모든 자료 저장소는 "파일" 명칭을 준수합니다.</p>
+            </div>
+            <div class="diagram-legend">
+              <div class="leg-item"><span class="leg-circle">P</span> <span>처리기 (동사형)</span></div>
+              <div class="leg-item"><span class="leg-store">DS</span> <span>자료저장소 (명사형)</span></div>
+            </div>
+          </div>
+          
+          <div class="diagram-area-new">
+            <svg viewBox="0 0 800 500" width="100%" height="100%" id="dfd-l1-svg">
+              <defs>
+                <filter id="shadow-sm" x="-5%" y="-5%" width="110%" height="110%">
+                  <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.1" />
+                </filter>
+              </defs>
+              
+              <!-- Entities (blue rects) -->
+              <g transform="translate(70, 50)" class="l1-entity">
+                <rect x="-40" y="-14" width="80" height="28" rx="4" fill="#00c2ff" stroke="#0099cc" stroke-width="1.5" />
+                <text x="0" y="4" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold">보호자</text>
+              </g>
+              <g transform="translate(70, 450)" class="l1-entity">
+                <rect x="-40" y="-14" width="80" height="28" rx="4" fill="#00c2ff" stroke="#0099cc" stroke-width="1.5" />
+                <text x="0" y="4" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold">수의사</text>
+              </g>
+              
+              <!-- Processes -->
+              <g transform="translate(230, 90)" class="l1-process">
+                <circle cx="0" cy="0" r="32" fill="#ffffff" stroke="#a6e22e" stroke-width="2" filter="url(#shadow-sm)" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">1.0</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8.5" font-weight="bold">
+                  <tspan x="0" dy="0">회원·펫</tspan>
+                  <tspan x="0" dy="9.5">프로필관리</tspan>
+                </text>
+              </g>
+              
+              <g transform="translate(230, 250)" class="l1-process">
+                <circle cx="0" cy="0" r="32" fill="#ffffff" stroke="#a6e22e" stroke-width="2" filter="url(#shadow-sm)" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">2.0</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8.5" font-weight="bold">
+                  <tspan x="0" dy="0">생체데이터</tspan>
+                  <tspan x="0" dy="9.5">기록관리</tspan>
+                </text>
+              </g>
+
+              <g transform="translate(430, 250)" class="l1-process">
+                <circle cx="0" cy="0" r="32" fill="#ffffff" stroke="#a6e22e" stroke-width="2" filter="url(#shadow-sm)" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">3.0</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8.5" font-weight="bold">
+                  <tspan x="0" dy="0">맞춤케어</tspan>
+                  <tspan x="0" dy="9.5">추천관리</tspan>
+                </text>
+              </g>
+
+              <g transform="translate(430, 90)" class="l1-process">
+                <circle cx="0" cy="0" r="32" fill="#ffffff" stroke="#a6e22e" stroke-width="2" filter="url(#shadow-sm)" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">4.0</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8.5" font-weight="bold">
+                  <tspan x="0" dy="0">주문대금</tspan>
+                  <tspan x="0" dy="9.5">결제관리</tspan>
+                </text>
+              </g>
+
+              <g transform="translate(630, 250)" class="l1-process">
+                <circle cx="0" cy="0" r="32" fill="#ffffff" stroke="#a6e22e" stroke-width="2" filter="url(#shadow-sm)" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">5.0</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8.5" font-weight="bold">
+                  <tspan x="0" dy="0">배송알림</tspan>
+                  <tspan x="0" dy="9.5">발송관리</tspan>
+                </text>
+              </g>
+              
+              <!-- Data Stores -->
+              <g transform="translate(340, 160)" class="l1-store">
+                <line x1="-40" y1="-12" x2="40" y2="-12" stroke="#f5a623" stroke-width="2" />
+                <line x1="-40" y1="12" x2="40" y2="12" stroke="#f5a623" stroke-width="2" />
+                <text x="0" y="3" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">D1 회원펫파일</text>
+              </g>
+
+              <g transform="translate(340, 340)" class="l1-store">
+                <line x1="-40" y1="-12" x2="40" y2="-12" stroke="#f5a623" stroke-width="2" />
+                <line x1="-40" y1="12" x2="40" y2="12" stroke="#f5a623" stroke-width="2" />
+                <text x="0" y="3" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">D2 생체데이터파일</text>
+              </g>
+
+              <g transform="translate(540, 340)" class="l1-store">
+                <line x1="-40" y1="-12" x2="40" y2="-12" stroke="#f5a623" stroke-width="2" />
+                <line x1="-40" y1="12" x2="40" y2="12" stroke="#f5a623" stroke-width="2" />
+                <text x="0" y="3" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">D3 추천처방파일</text>
+              </g>
+              
+              <g transform="translate(540, 160)" class="l1-store">
+                <line x1="-40" y1="-12" x2="40" y2="-12" stroke="#f5a623" stroke-width="2" />
+                <line x1="-40" y1="12" x2="40" y2="12" stroke="#f5a623" stroke-width="2" />
+                <text x="0" y="3" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">D4 주문결제파일</text>
+              </g>
+
+              <!-- External Entities (additional) -->
+              <g transform="translate(680, 50)" class="l1-entity">
+                <rect x="-40" y="-14" width="80" height="28" rx="4" fill="#00c2ff" stroke="#0099cc" stroke-width="1.5" />
+                <text x="0" y="4" text-anchor="middle" fill="#ffffff" font-size="9" font-weight="bold">유통사</text>
+              </g>
+
+              <!-- FLOWS -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 110,55 L 198,75" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="105" y="49" width="80" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="145" y="59" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">회원가입신청서</text>
+              </g>
+
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 230,122 L 230,218" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="170" y="159" width="80" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="210" y="169" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">기기연동설정값</text>
+              </g>
+
+              <!-- 1.0 <-> D1 -->
+              <path class="dfd-arrow" d="M 262,105 L 300,140" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+              <path class="dfd-arrow" d="M 300,150 L 262,118" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- 2.0 <-> D2 -->
+              <path class="dfd-arrow" d="M 262,265 L 300,320" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+              <path class="dfd-arrow" d="M 300,330 L 262,278" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- D2 -> 3.0 -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 380,340 L 410,282" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="350" y="289" width="80" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="390" y="299" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">생체분석데이터</text>
+              </g>
+
+              <!-- 3.0 -> D3 -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 462,265 L 500,320" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="455" y="284" width="80" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="495" y="294" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">추천처방내역서</text>
+              </g>
+
+              <!-- D3 -> 4.0 -->
+              <path class="dfd-arrow" d="M 540,328 L 450,122" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+              
+              <!-- 4.0 -> D4 -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 462,105 L 500,140" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="450" y="109" width="90" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="495" y="119" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">주문결제상세내역</text>
+              </g>
+
+              <!-- D4 -> 5.0 -->
+              <path class="dfd-arrow" d="M 580,165 L 610,220" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+            </svg>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">04-2. Level 1 DFD (전체 프로세스 및 데이터 저장소 흐름 - 외부연동 검증 완료)</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(8)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: 05-1. LEVEL 2 DFD (Completely Orthogonal-like Alignment, No Line Crossing, Ultra-Neat Labels) -->
+    <section class="slide" id="slide-8">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content diagram-layout">
+          <div class="slide-indicator-badge">05-1</div>
+          
+          <div class="diagram-sidebar-new">
+            <h2>Level 2 DFD<br>회원/펫관리</h2>
+            <div class="diagram-desc-card">
+              <h4>직관적 배치 및 병렬 선로</h4>
+              <p>모든 데이터 흐름선이 <strong>완전한 대칭 병렬 구조</strong>로 정리되어 선들이 뒤엉키거나 교차하는 단점을 완벽히 해결했습니다.</p>
+              <p>라벨 마스크에는 부드러운 외곽선 테두리를 적용해 다이어그램 도식 설계 규격을 충족합니다.</p>
+            </div>
+          </div>
+          
+          <div class="diagram-area-new">
+            <svg viewBox="0 0 800 500" width="100%" height="100%">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#78909c" />
+                </marker>
+              </defs>
+
+              <!-- Entities -->
+              <!-- 보호자 (E1) on the left -->
+              <g transform="translate(100, 250)" class="l1-entity">
+                <rect x="-40" y="-20" width="80" height="40" rx="4" fill="#00c2ff" stroke="#0099cc" stroke-width="1.5" />
+                <text x="0" y="5" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">보호자</text>
+              </g>
+
+              <!-- IoT기기업체 (E2) on the bottom right -->
+              <g transform="translate(720, 390)" class="l1-entity">
+                <rect x="-45" y="-20" width="90" height="40" rx="4" fill="#00c2ff" stroke="#0099cc" stroke-width="1.5" />
+                <text x="0" y="5" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">IoT기기업체</text>
+              </g>
+
+              <!-- Processes (Symmetric X-Shape around D1) -->
+              <!-- 1.1 회원가입처리 (Top Left) -->
+              <g transform="translate(300, 110)" class="l1-process">
+                <circle cx="0" cy="0" r="30" fill="#ffffff" stroke="#a6e22e" stroke-width="2" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">1.1</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8" font-weight="bold">
+                  <tspan x="0" dy="0">회원가입</tspan>
+                  <tspan x="0" dy="9">처리</tspan>
+                </text>
+              </g>
+
+              <!-- 1.2 반려동물등록처리 (Bottom Left) -->
+              <g transform="translate(300, 390)" class="l1-process">
+                <circle cx="0" cy="0" r="30" fill="#ffffff" stroke="#a6e22e" stroke-width="2" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">1.2</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8" font-weight="bold">
+                  <tspan x="0" dy="0">반려동물</tspan>
+                  <tspan x="0" dy="9">등록처리</tspan>
+                </text>
+              </g>
+
+              <!-- 1.3 기기연동처리 (Bottom Right) -->
+              <g transform="translate(540, 390)" class="l1-process">
+                <circle cx="0" cy="0" r="30" fill="#ffffff" stroke="#a6e22e" stroke-width="2" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">1.3</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8" font-weight="bold">
+                  <tspan x="0" dy="0">기기연동</tspan>
+                  <tspan x="0" dy="9">처리</tspan>
+                </text>
+              </g>
+
+              <!-- 1.4 회원탈퇴처리 (Top Right) -->
+              <g transform="translate(540, 110)" class="l1-process">
+                <circle cx="0" cy="0" r="30" fill="#ffffff" stroke="#a6e22e" stroke-width="2" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">1.4</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8" font-weight="bold">
+                  <tspan x="0" dy="0">회원탈퇴</tspan>
+                  <tspan x="0" dy="9">처리</tspan>
+                </text>
+              </g>
+
+              <!-- Data Stores -->
+              <!-- D1 회원펫파일 (Center) -->
+              <g transform="translate(420, 250)" class="l1-store">
+                <line x1="-45" y1="-12" x2="45" y2="-12" stroke="#f5a623" stroke-width="2" />
+                <line x1="-45" y1="12" x2="45" y2="12" stroke="#f5a623" stroke-width="2" />
+                <text x="0" y="3" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">D1 회원펫파일</text>
+              </g>
+
+              <!-- D5 탈퇴회원파일 (Top Right) -->
+              <g transform="translate(720, 110)" class="l1-store">
+                <line x1="-45" y1="-12" x2="45" y2="-12" stroke="#f5a623" stroke-width="2" />
+                <line x1="-45" y1="12" x2="45" y2="12" stroke="#f5a623" stroke-width="2" />
+                <text x="0" y="3" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">D5 탈퇴회원파일</text>
+              </g>
+
+              <!-- PARALLEL NON-CROSSING ARROWS WITH HIGH-QUALITY OUTLINED LABELS -->
+
+              <!-- ========================================== -->
+              <!-- DATA FLOW LINES (drawn first)              -->
+              <!-- ========================================== -->
+              <!-- 1. 보호자 <-> 1.1 회원가입처리 -->
+              <path class="dfd-arrow" d="M 115,225 L 275,115" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+              <path class="dfd-arrow" d="M 285,125 L 125,235" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- 2. 보호자 <-> 1.2 반려동물등록처리 -->
+              <path class="dfd-arrow" d="M 125,275 L 285,385" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+              <path class="dfd-arrow" d="M 275,375 L 115,265" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- 3. 1.1 회원가입처리 -> D1 -->
+              <path class="dfd-arrow" d="M 320,135 L 395,235" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- 4. 1.2 반려동물등록처리 <-> D1 -->
+              <path class="dfd-arrow" d="M 320,365 L 395,265" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+              <path class="dfd-arrow" d="M 405,275 L 330,375" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- 5. 1.3 기기연동처리 <-> D1 -->
+              <path class="dfd-arrow" d="M 520,365 L 445,265" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+              <path class="dfd-arrow" d="M 435,275 L 510,375" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- 6. 1.4 회원탈퇴처리 <-> D1 -->
+              <path class="dfd-arrow" d="M 520,135 L 445,235" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+              <path class="dfd-arrow" d="M 435,245 L 510,145" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- 7. 보호자 <-> 1.3 기기연동처리 (Curved) -->
+              <path class="dfd-arrow" d="M 120,270 Q 300,540 510,410" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+              <path class="dfd-arrow" d="M 510,420 Q 300,565 110,275" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- 8. 보호자 <-> 1.4 회원탈퇴처리 (Curved) -->
+              <path class="dfd-arrow" d="M 120,230 Q 300,-40 510,90" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+              <path class="dfd-arrow" d="M 510,80 Q 300,-70 110,225" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- 9. 1.3 기기연동처리 <-> IoT기기업체 -->
+              <path class="dfd-arrow" d="M 570,380 L 670,380" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+              <path class="dfd-arrow" d="M 670,400 L 570,400" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- 10. 1.4 회원탈퇴처리 -> D5 -->
+              <path class="dfd-arrow" d="M 570,110 L 670,110" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+
+              <!-- ========================================== -->
+              <!-- DATA FLOW LABELS (drawn second on top)    -->
+              <!-- ========================================== -->
+              <!-- 1. 보호자 <-> 1.1 회원가입처리 -->
+              <g class="dfd-flow">
+                <rect x="153" y="152" width="66" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="186" y="161" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">회원가입신청서</text>
+              </g>
+              <g class="dfd-flow">
+                <rect x="163" y="192" width="66" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="196" y="201" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">가입완료통보서</text>
+              </g>
+
+              <!-- 2. 보호자 <-> 1.2 반려동물등록처리 -->
+              <g class="dfd-flow">
+                <rect x="175" y="312" width="58" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="204" y="321" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">반려견등록서</text>
+              </g>
+              <g class="dfd-flow">
+                <rect x="153" y="278" width="66" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="186" y="287" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">등록완료통보서</text>
+              </g>
+
+              <!-- 3. 1.1 회원가입처리 -> D1 -->
+              <g class="dfd-flow">
+                <rect x="325" y="172" width="66" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="358" y="181" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">신규회원프로필</text>
+              </g>
+
+              <!-- 4. 1.2 반려동물등록처리 <-> D1 -->
+              <g class="dfd-flow">
+                <rect x="330" y="295" width="58" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="359" y="304" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">반려견프로필</text>
+              </g>
+              <g class="dfd-flow">
+                <rect x="345" y="335" width="42" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="366" y="344" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">회원정보</text>
+              </g>
+
+              <!-- 5. 1.3 기기연동처리 <-> D1 -->
+              <g class="dfd-flow">
+                <rect x="452" y="295" width="66" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="485" y="304" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">기기연동설정값</text>
+              </g>
+              <g class="dfd-flow">
+                <rect x="462" y="335" width="58" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="491" y="344" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">반려견프로필</text>
+              </g>
+
+              <!-- 6. 1.4 회원탈퇴처리 <-> D1 -->
+              <g class="dfd-flow">
+                <rect x="445" y="172" width="74" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="482" y="181" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">회원정보삭제내역</text>
+              </g>
+              <g class="dfd-flow">
+                <rect x="465" y="208" width="42" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="486" y="217" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">회원정보</text>
+              </g>
+
+              <!-- 7. 보호자 <-> 1.3 기기연동처리 -->
+              <g class="dfd-flow">
+                <rect x="271" y="445" width="66" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="304" y="454" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">기기연동요청서</text>
+              </g>
+              <g class="dfd-flow">
+                <rect x="271" y="475" width="66" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="304" y="484" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">연동완료통보서</text>
+              </g>
+
+              <!-- 8. 보호자 <-> 1.4 회원탈퇴처리 -->
+              <g class="dfd-flow">
+                <rect x="276" y="45" width="50" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="301" y="54" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">탈퇴요청서</text>
+              </g>
+              <g class="dfd-flow">
+                <rect x="271" y="22" width="66" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="304" y="31" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">탈퇴완료통보서</text>
+              </g>
+
+              <!-- 9. 1.3 기기연동처리 <-> IoT기기업체 -->
+              <g class="dfd-flow">
+                <rect x="587" y="372" width="66" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="620" y="381" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">기기인증요청서</text>
+              </g>
+              <g class="dfd-flow">
+                <rect x="587" y="402" width="66" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="620" y="411" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">기기인증결과서</text>
+              </g>
+
+              <!-- 10. 1.4 회원탈퇴처리 -> D5 탈퇴회원파일 -->
+              <g class="dfd-flow">
+                <rect x="587" y="102" width="58" height="12" rx="2" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="616" y="111" font-size="7.5" fill="#2e7d32" font-weight="500" text-anchor="middle">탈퇴회원증서</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">05-1. Level 2 DFD (1.0 회원 및 반려동물 프로필 관리 분해 - 검증 완료)</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(9)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: 05-2. LEVEL 2 DFD DATA DICTIONARY -->
+    <section class="slide" id="slide-9">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content diagram-layout">
+          <div class="slide-indicator-badge">05-2</div>
+          
+          <div class="diagram-sidebar-new">
+            <h2>Level 2 DFD<br>자료사전(DD)</h2>
+            <div class="diagram-desc-card">
+              <h4>자료 명사형 명명</h4>
+              <p>자료흐름명칭은 모두 문서 및 로그 형태의 명사 명명 규칙을 철저히 준수하여 정의하였습니다.</p>
+            </div>
+          </div>
+          
+          <div class="table-area">
+            <table class="dd-table">
+              <thead>
+                <tr>
+                  <th>자료 흐름명</th>
+                  <th>자료 정의 (Data Structure)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="highlight-td">회원가입신청서</td>
+                  <td>이름 + 생년월일 + 이메일 + 연락처(휴대폰) + 보호자 주소 + 희망 아이디 + 비밀번호</td>
+                </tr>
+                <tr>
+                  <td class="highlight-td">반려견등록서</td>
+                  <td>보호자 아이디 + 반려견 이름 + 품종 + 반려견 생년월일 + 성별 (중성화 여부) + 몸무게 + 주요 기왕력 및 알레르기 유무</td>
+                </tr>
+                <tr>
+                  <td class="highlight-td">기기연동요청서</td>
+                  <td>보호자 아이디 + 반려견 식별코드 + IoT 기기 시리얼 번호 + 기기 모델명 + Wi-Fi 연결 비밀번호 + 생체 정보 수동/자동 수집 동의 여부</td>
+                </tr>
+                <tr>
+                  <td class="highlight-td">실시간생체데이터전송포맷</td>
+                  <td>기기 시리얼 번호 + 반려견 식별코드 + 데이터 수집 타임스탬프 + 실시간 체온(℃) + 실시간 심박수(bpm) + 3축 가속도 센서 값(X, Y, Z) + 배터리 잔량(%)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">05-2. Level 2 DFD 자료 사전 (회원 및 반려동물 관리 데이터 흐름 정의)</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(10)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: 06-1. LEVEL 3 DFD (BIODATA ANALYSIS & RECOMMENDATION) -->
+    <section class="slide" id="slide-10">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content diagram-layout">
+          <div class="slide-indicator-badge">06-1</div>
+          
+          <div class="diagram-sidebar-new">
+            <h2>Level 3 DFD<br>생체분석</h2>
+            <div class="diagram-desc-card">
+              <h4>이상징후 분석 분해</h4>
+              <p>센서 데이터 유입부터 AI 엔진 가동, 의학 임계값 판정 및 수의사 연계용 자료 적재 프로세스 설계입니다.</p>
+            </div>
+          </div>
+          
+          <div class="diagram-area-new">
+            <svg viewBox="0 0 800 500" width="100%" height="100%">
+              <!-- Entities -->
+              <g transform="translate(80, 120)" class="l1-entity">
+                <rect x="-40" y="-14" width="80" height="28" rx="4" fill="#00c2ff" stroke="#0099cc" stroke-width="1.5" />
+                <text x="0" y="4" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold">IoT 목줄</text>
+              </g>
+
+              <g transform="translate(720, 120)" class="l1-entity">
+                <rect x="-40" y="-14" width="80" height="28" rx="4" fill="#00c2ff" stroke="#0099cc" stroke-width="1.5" />
+                <text x="0" y="4" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold">AI분석엔진</text>
+              </g>
+
+              <g transform="translate(720, 380)" class="l1-entity">
+                <rect x="-40" y="-14" width="80" height="28" rx="4" fill="#00c2ff" stroke="#0099cc" stroke-width="1.5" />
+                <text x="0" y="4" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold">보호자</text>
+              </g>
+
+              <!-- Processes -->
+              <g transform="translate(260, 120)" class="l1-process">
+                <circle cx="0" cy="0" r="30" fill="#ffffff" stroke="#a6e22e" stroke-width="2" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">2.1</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8" font-weight="bold">
+                  <tspan x="0" dy="0">생체데이터</tspan>
+                  <tspan x="0" dy="9">수집처리</tspan>
+                </text>
+              </g>
+
+              <g transform="translate(480, 120)" class="l1-process">
+                <circle cx="0" cy="0" r="30" fill="#ffffff" stroke="#a6e22e" stroke-width="2" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">2.2</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8" font-weight="bold">
+                  <tspan x="0" dy="0">이상징후</tspan>
+                  <tspan x="0" dy="9">분석처리</tspan>
+                </text>
+              </g>
+
+              <g transform="translate(480, 300)" class="l1-process">
+                <circle cx="0" cy="0" r="30" fill="#ffffff" stroke="#a6e22e" stroke-width="2" />
+                <text x="0" y="-6" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">2.3</text>
+                <text x="0" y="6" text-anchor="middle" fill="#2c3e50" font-size="8" font-weight="bold">
+                  <tspan x="0" dy="0">건강보고서</tspan>
+                  <tspan x="0" dy="9">생성처리</tspan>
+                </text>
+              </g>
+              <!-- Data Stores -->
+              <g transform="translate(370, 200)" class="l1-store">
+                <line x1="-45" y1="-12" x2="45" y2="-12" stroke="#f5a623" stroke-width="2" />
+                <line x1="-45" y1="12" x2="45" y2="12" stroke="#f5a623" stroke-width="2" />
+                <text x="0" y="3" text-anchor="middle" fill="#2c3e50" font-size="9" font-weight="bold">D2 생체데이터파일</text>
+              </g>
+
+              <!-- Flows -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 120,120 L 230,120" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="135" y="101" width="80" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="175" y="111" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">실시간센서측정값</text>
+              </g>
+
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 280,145 L 325,185" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="265" y="149" width="90" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="310" y="159" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">실시간생체수집로그</text>
+              </g>
+              
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 405,185 L 455,145" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="395" y="164" width="90" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="440" y="174" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">실시간생체수집로그</text>
+              </g>
+
+              <!-- Process 2.2 <-> AI분석엔진 -->
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 510,110 L 680,110" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="540" y="91" width="110" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="595" y="101" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">AI이상징후분석요청서</text>
+              </g>
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 680,130 L 510,130" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="550" y="129" width="90" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="595" y="139" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">이상징후분석서</text>
+              </g>
+
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 480,150 L 480,270" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="445" y="199" width="90" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="490" y="209" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">이상징후발생내역</text>
+              </g>
+              
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 405,212 L 450,285" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="360" y="244" width="80" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="400" y="254" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">이상감지내역서</text>
+              </g>
+
+              <g class="dfd-flow">
+                <path class="dfd-arrow" d="M 510,315 L 680,375" stroke="#78909c" stroke-width="1.2" marker-end="url(#arrow)" />
+                <rect x="560" y="324" width="80" height="14" rx="3" fill="#ffffff" stroke="#dadce0" stroke-width="0.8" />
+                <text x="600" y="334" font-size="8.5" fill="#2e7d32" font-weight="500" text-anchor="middle">건강지표보고서</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">06-1. Level 3 DFD (2.0 생체데이터 관리 및 이상 징후 분석 세부 프로세스 분해)</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(11)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: 06-2. LEVEL 3 DFD DATA DICTIONARY -->
+    <section class="slide" id="slide-11">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content diagram-layout">
+          <div class="slide-indicator-badge">06-2</div>
+          
+          <div class="diagram-sidebar-new">
+            <h2>Level 3 DFD<br>자료사전(DD)</h2>
+            <div class="diagram-desc-card">
+              <h4>생체 원격 정보 정의</h4>
+              <p>IoT 센서로부터 전송되는 데이터 타입 및 AI 요청 포맷을 정의한 자료사전 테이블입니다.</p>
+            </div>
+          </div>
+          
+          <div class="table-area">
+            <table class="dd-table">
+              <thead>
+                <tr>
+                  <th>자료 흐름명</th>
+                  <th>자료 정의 (Data Structure)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="highlight-td">실시간생체수집로그</td>
+                  <td>반려견 식별코드 + IoT 시리얼 번호 + 금일 총 걸음수 + 시간당 평균 활동량 + 최근 1시간 평균 심박수 + 최종 측정 체온</td>
+                </tr>
+                <tr>
+                  <td class="highlight-td">AI이상징후분석요청서</td>
+                  <td>반려견 식별코드 + 품종 및 연령 기준 임계값 테이블 + 최근 24시간 실시간 생체 데이터 시계열 리스트 + 분석 시간 범위(시간단위)</td>
+                </tr>
+                <tr>
+                  <td class="highlight-td">건강지표보고서</td>
+                  <td>반려견 식별코드 + 분석 날짜 + 종합 건강 지수(0~100점) + 생체 정보별 판정 상태(정상/주의/위험) + 감지된 이상 상태 설명 + 추천 행동 가이드</td>
+                </tr>
+                <tr>
+                  <td class="highlight-td">맞춤케어추천서</td>
+                  <td>보호자 아이디 + 반려견 식별코드 + 추천 일자 + 주요 건강 부족 요인(관절/소화/피부 등) + 처방식 사료명 + 추천 필수 영양제 + 일일 권장 급여량</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">06-2. Level 3 DFD 자료 사전 (생체데이터 분석 및 추천 데이터 정의)</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(12)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: 07. ERD -->
+    <section class="slide" id="slide-12">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content diagram-layout">
+          <div class="slide-indicator-badge">07</div>
+          
+          <div class="diagram-sidebar-new">
+            <h2>ERD</h2>
+            <div class="diagram-desc-card">
+              <h4>관계형 데이터베이스</h4>
+              <p>보호자, 반려동물, IoT 기기, 생체기록 간의 논리 스키마 설계를 도식화한 ERD입니다.</p>
+              <p>PK(기본키) 및 FK(외래키) 관계가 구조적으로 연동되어 있습니다.</p>
+            </div>
+            <div class="diagram-legend">
+              <div class="leg-item"><span class="leg-box pk-box">PK</span> <span>기본키 (Primary Key)</span></div>
+              <div class="leg-item"><span class="leg-box fk-box">FK</span> <span>외래키 (Foreign Key)</span></div>
+            </div>
+          </div>
+          
+          <div class="diagram-area-new">
+            <svg viewBox="0 0 800 500" width="100%" height="100%">
+              <defs>
+                <marker id="one-to-many" viewBox="0 0 20 20" refX="10" refY="10" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+                  <path d="M 0 5 L 10 10 L 0 15 M 10 0 L 10 20" fill="none" stroke="#7f8c8d" stroke-width="2" />
+                </marker>
+                <marker id="one-to-one" viewBox="0 0 20 20" refX="10" refY="10" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+                  <path d="M 5 0 L 5 20 M 12 0 L 12 20" fill="none" stroke="#7f8c8d" stroke-width="2" />
+                </marker>
+              </defs>
+
+              <!-- Entity: 보호자 -->
+              <g transform="translate(40, 120)">
+                <rect x="0" y="0" width="180" height="176" rx="6" fill="#ffffff" stroke="#dadce0" stroke-width="1.5" />
+                <path d="M 0,6 Q 0,0 6,0 L 174,0 Q 180,0 180,6 L 180,32 L 0,32 Z" fill="#202124" />
+                <text x="90" y="20" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">보호자 (Owner)</text>
+                
+                <!-- Row 1: PK 보호자식별키 -->
+                <rect x="8" y="35" width="18" height="12" rx="2" fill="#d93025" />
+                <text x="17" y="44" font-size="8.5" fill="#ffffff" font-weight="bold" text-anchor="middle">PK</text>
+                <text x="32" y="44" font-size="9" fill="#202124" font-weight="bold">보호자식별키</text>
+                <text x="172" y="44" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 2: 이름 -->
+                <text x="32" y="62" font-size="9" fill="#202124">이름</text>
+                <text x="172" y="62" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 3: 생년월일 -->
+                <text x="32" y="80" font-size="9" fill="#202124">생년월일</text>
+                <text x="172" y="80" font-size="8" fill="#80868b" text-anchor="end">DATE</text>
+                
+                <!-- Row 4: 전화번호 -->
+                <text x="32" y="98" font-size="9" fill="#202124">전화번호</text>
+                <text x="172" y="98" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 5: 이메일 -->
+                <text x="32" y="116" font-size="9" fill="#202124">이메일</text>
+                <text x="172" y="116" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 6: 집주소 -->
+                <text x="32" y="134" font-size="9" fill="#202124">집주소</text>
+                <text x="172" y="134" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 7: 아이디 -->
+                <text x="32" y="152" font-size="9" fill="#202124">아이디</text>
+                <text x="172" y="152" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 8: 비밀번호 -->
+                <text x="32" y="170" font-size="9" fill="#202124">비밀번호</text>
+                <text x="172" y="170" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+              </g>
+
+              <!-- Entity: 반려동물 -->
+              <g transform="translate(300, 120)">
+                <rect x="0" y="0" width="180" height="176" rx="6" fill="#ffffff" stroke="#dadce0" stroke-width="1.5" />
+                <path d="M 0,6 Q 0,0 6,0 L 174,0 Q 180,0 180,6 L 180,32 L 0,32 Z" fill="#202124" />
+                <text x="90" y="20" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">반려동물 (Pet)</text>
+                
+                <!-- Row 1: PK 반려동물식별키 -->
+                <rect x="8" y="35" width="18" height="12" rx="2" fill="#d93025" />
+                <text x="17" y="44" font-size="8.5" fill="#ffffff" font-weight="bold" text-anchor="middle">PK</text>
+                <text x="32" y="44" font-size="9" fill="#202124" font-weight="bold">반려동물식별키</text>
+                <text x="172" y="44" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 2: FK 보호자식별키 -->
+                <rect x="8" y="53" width="18" height="12" rx="2" fill="#1a73e8" />
+                <text x="17" y="62" font-size="8.5" fill="#ffffff" font-weight="bold" text-anchor="middle">FK</text>
+                <text x="32" y="62" font-size="9" fill="#202124" font-weight="bold">보호자식별키</text>
+                <text x="172" y="62" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 3: 이름 -->
+                <text x="32" y="80" font-size="9" fill="#202124">이름</text>
+                <text x="172" y="80" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 4: 품종 -->
+                <text x="32" y="98" font-size="9" fill="#202124">품종</text>
+                <text x="172" y="98" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 5: 생년월일 -->
+                <text x="32" y="116" font-size="9" fill="#202124">생년월일</text>
+                <text x="172" y="116" font-size="8" fill="#80868b" text-anchor="end">DATE</text>
+                
+                <!-- Row 6: 성별 -->
+                <text x="32" y="134" font-size="9" fill="#202124">성별</text>
+                <text x="172" y="134" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 7: 체중 -->
+                <text x="32" y="152" font-size="9" fill="#202124">체중</text>
+                <text x="172" y="152" font-size="8" fill="#80868b" text-anchor="end">DECIMAL</text>
+                
+                <!-- Row 8: 기왕력 -->
+                <text x="32" y="170" font-size="9" fill="#202124">기왕력</text>
+                <text x="172" y="170" font-size="8" fill="#80868b" text-anchor="end">TEXT</text>
+              </g>
+
+              <!-- Entity: IoT 기기 -->
+              <g transform="translate(560, 30)">
+                <rect x="0" y="0" width="180" height="158" rx="6" fill="#ffffff" stroke="#dadce0" stroke-width="1.5" />
+                <path d="M 0,6 Q 0,0 6,0 L 174,0 Q 180,0 180,6 L 180,32 L 0,32 Z" fill="#202124" />
+                <text x="90" y="20" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">IoT기기 (Device)</text>
+                
+                <!-- Row 1: PK 기기식별키 -->
+                <rect x="8" y="35" width="18" height="12" rx="2" fill="#d93025" />
+                <text x="17" y="44" font-size="8.5" fill="#ffffff" font-weight="bold" text-anchor="middle">PK</text>
+                <text x="32" y="44" font-size="9" fill="#202124" font-weight="bold">기기식별키</text>
+                <text x="172" y="44" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 2: FK 반려동물식별키 -->
+                <rect x="8" y="53" width="18" height="12" rx="2" fill="#1a73e8" />
+                <text x="17" y="62" font-size="8.5" fill="#ffffff" font-weight="bold" text-anchor="middle">FK</text>
+                <text x="32" y="62" font-size="9" fill="#202124" font-weight="bold">반려동물식별키</text>
+                <text x="172" y="62" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 3: 시리얼번호 -->
+                <text x="32" y="80" font-size="9" fill="#202124">시리얼번호</text>
+                <text x="172" y="80" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 4: 모델명 -->
+                <text x="32" y="98" font-size="9" fill="#202124">모델명</text>
+                <text x="172" y="98" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 5: 배터리상태 -->
+                <text x="32" y="116" font-size="9" fill="#202124">배터리상태</text>
+                <text x="172" y="116" font-size="8" fill="#80868b" text-anchor="end">INT</text>
+                
+                <!-- Row 6: 연동상태 -->
+                <text x="32" y="134" font-size="9" fill="#202124">연동상태</text>
+                <text x="172" y="134" font-size="8" fill="#80868b" text-anchor="end">BOOLEAN</text>
+                
+                <!-- Row 7: 최종동기화 -->
+                <text x="32" y="152" font-size="9" fill="#202124">최종동기화</text>
+                <text x="172" y="152" font-size="8" fill="#80868b" text-anchor="end">DATETIME</text>
+              </g>
+
+              <!-- Entity: 생체 건강기록 -->
+              <g transform="translate(560, 240)">
+                <rect x="0" y="0" width="180" height="140" rx="6" fill="#ffffff" stroke="#dadce0" stroke-width="1.5" />
+                <path d="M 0,6 Q 0,0 6,0 L 174,0 Q 180,0 180,6 L 180,32 L 0,32 Z" fill="#202124" />
+                <text x="90" y="20" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">건강기록 (VitalSigns)</text>
+                
+                <!-- Row 1: PK 기록식별키 -->
+                <rect x="8" y="35" width="18" height="12" rx="2" fill="#d93025" />
+                <text x="17" y="44" font-size="8.5" fill="#ffffff" font-weight="bold" text-anchor="middle">PK</text>
+                <text x="32" y="44" font-size="9" fill="#202124" font-weight="bold">기록식별키</text>
+                <text x="172" y="44" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 2: FK 반려동물식별키 -->
+                <rect x="8" y="53" width="18" height="12" rx="2" fill="#1a73e8" />
+                <text x="17" y="62" font-size="8.5" fill="#ffffff" font-weight="bold" text-anchor="middle">FK</text>
+                <text x="32" y="62" font-size="9" fill="#202124" font-weight="bold">반려동물식별키</text>
+                <text x="172" y="62" font-size="8" fill="#80868b" text-anchor="end">VARCHAR</text>
+                
+                <!-- Row 3: 측정일시 -->
+                <text x="32" y="80" font-size="9" fill="#202124">측정일시</text>
+                <text x="172" y="80" font-size="8" fill="#80868b" text-anchor="end">DATETIME</text>
+                
+                <!-- Row 4: 체온 -->
+                <text x="32" y="98" font-size="9" fill="#202124">체온</text>
+                <text x="172" y="98" font-size="8" fill="#80868b" text-anchor="end">DECIMAL</text>
+                
+                <!-- Row 5: 심박수 -->
+                <text x="32" y="116" font-size="9" fill="#202124">심박수</text>
+                <text x="172" y="116" font-size="8" fill="#80868b" text-anchor="end">INT</text>
+                
+                <!-- Row 6: 활동량 -->
+                <text x="32" y="134" font-size="9" fill="#202124">활동량</text>
+                <text x="172" y="134" font-size="8" fill="#80868b" text-anchor="end">INT</text>
+              </g>
+
+              <!-- Relations (Lines) -->
+              <path d="M 220,161 L 260,161 L 260,179 L 300,179" fill="none" stroke="#7f8c8d" stroke-width="1.5" marker-start="url(#one-to-one)" marker-end="url(#one-to-many)" />
+              <path d="M 480,161 L 520,161 L 520,89 L 560,89" fill="none" stroke="#7f8c8d" stroke-width="1.5" marker-start="url(#one-to-one)" marker-end="url(#one-to-one)" />
+              <path d="M 480,161 L 520,161 L 520,299 L 560,299" fill="none" stroke="#7f8c8d" stroke-width="1.5" marker-start="url(#one-to-one)" marker-end="url(#one-to-many)" />
+            </svg>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">07. 데이터베이스 ERD (보호자 - 반려동물 - IoT기기 - 건강기록 간의 관계 정의)</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(13)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 13: 08. INTERFACE IMPLEMENTATION -->
+    <section class="slide" id="slide-13">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content flex-column">
+          <div class="slide-indicator-badge">08</div>
+          
+          <div class="interface-grid">
+            
+            <!-- Left Info Panel -->
+            <div class="interface-info-panel">
+              <div class="title-with-icon">
+                <span class="icon-circle bg-blue"><i data-lucide="monitor" class="text-white"></i></span>
+                <h2>인터페이스 구현</h2>
+              </div>
+              
+              <div class="info-block-card">
+                <h3>실시간 반려견 바이탈 측정</h3>
+                <p>IoT 목줄 센서와 실시간 연동되어 수집되는 반려견의 생체 정보를 대시보드 그래프로 표현하고 분석 이력을 관리합니다.</p>
+              </div>
+
+              <div class="info-block-card">
+                <h3>AI 기반 헬스케어 및 처방 식단 추천</h3>
+                <p>수집된 반려견의 바이탈 및 기초 문진 자료를 기반으로 건강 점수를 연산하고 영양제와 맞춤 사료를 자동으로 매칭하여 처방합니다.</p>
+              </div>
+            </div>
+            
+            <!-- Right Live Simulator Panel -->
+            <div class="interface-demo-panel">
+              
+              <!-- Tablet Frame Mockup -->
+              <div class="tablet-frame">
+                <div class="tablet-header">
+                  <div class="pet-profile-mini">
+                    <span class="pet-avatar"><i data-lucide="dog"></i></span>
+                    <div class="pet-meta">
+                      <span class="pet-name">코코 (토이 푸들)</span>
+                      <span class="pet-desc">3세 · 수컷(중성화) · 4.5kg</span>
+                    </div>
+                  </div>
+                  <div class="system-status-indicator">
+                    <span class="pulse-dot"></span>
+                    <span class="status-lbl">IoT 연동중</span>
+                  </div>
+                </div>
+                
+                <div class="tablet-body">
+                  <!-- Live Value Grid -->
+                  <div class="live-values">
+                    <div class="val-card">
+                      <span class="val-lbl"><i data-lucide="heart" class="icon-heart-pulse"></i> 심박수</span>
+                      <span class="val-num" id="live-heart-rate">95 <small>bpm</small></span>
+                    </div>
+                    <div class="val-card">
+                      <span class="val-lbl"><i data-lucide="thermometer" class="icon-temp"></i> 체온</span>
+                      <span class="val-num" id="live-temp">38.7 <small>℃</small></span>
+                    </div>
+                    <div class="val-card">
+                      <span class="val-lbl"><i data-lucide="footprints" class="icon-steps"></i> 활동량</span>
+                      <span class="val-num" id="live-steps">450 <small>걸음</small></span>
+                    </div>
+                  </div>
+                  
+                  <!-- Live Chart Area -->
+                  <div class="chart-container">
+                    <canvas id="liveVitalChart"></canvas>
+                  </div>
+                  
+                  <!-- AI Recommend Action Area -->
+                  <div class="ai-action-area">
+                    <button class="ai-calc-btn" id="run-ai-btn">
+                      <i data-lucide="cpu"></i> AI 실시간 맞춤 헬스케어 분석 실행
+                    </button>
+                    
+                    <div class="recommendation-results hidden" id="rec-results">
+                      <div class="rec-score-box">
+                        <span class="score-lbl">종합 건강 점수</span>
+                        <span class="score-num" id="rec-score">--</span>
+                      </div>
+                      <div class="rec-details">
+                        <div class="rec-item">
+                          <span class="rec-tag bg-pink">영양제 추천</span>
+                          <span class="rec-name" id="rec-supp">조인트 서포트 초록입홍합 글루코사민 츄</span>
+                          <span class="rec-reason">소형견(토이 푸들) 특성을 고려하여 슬개골 탈구 예방 및 관절 세포 재생을 촉진합니다.</span>
+                        </div>
+                        <div class="rec-item">
+                          <span class="rec-tag bg-yellow">추천 사료</span>
+                          <span class="rec-name" id="rec-feed">오가닉 연어 & 감자 져키 저알레르기 처방식</span>
+                          <span class="rec-reason">귓병 피부 발진 증상 완화를 위해 단백질 가수분해 사료 처방.</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">08. 사용자 인터페이스(UI) 모바일/태블릿 건강 모니터링 및 AI 추천 솔루션</div>
+          <button class="arrow-next-btn no-print" onclick="goToSlide(14)">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 14: THANK YOU PAGE -->
+    <section class="slide" id="slide-14">
+      <div class="window-card">
+        <div class="window-decorations">
+          <span class="dot-decor"></span>
+          <span class="dot-decor"></span>
+        </div>
+        <div class="slide-content split-layout center-content">
+          <div class="thank-left-image">
+            <img src="assets/thank_you_pet.png" alt="고양이와 강아지" class="thank-img">
+          </div>
+          <div class="thank-text">
+            <h1 class="thank-title">THANK YOU</h1>
+            <p class="thank-sub">경청해 주셔서 감사합니다.</p>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-left">발표를 마치겠습니다.</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- JavaScript logic -->
+  <script src="app.js"></script>
+</body>
+</html>
